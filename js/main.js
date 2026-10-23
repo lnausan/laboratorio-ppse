@@ -7,6 +7,10 @@
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Modo liviano en pantallas táctiles: el paisaje queda quieto y solo se mueve la cámara
+  // (redibujar el SVG gigante en cada cuadro es lo que trababa el scroll en celulares).
+  var LITE = window.matchMedia('(pointer: coarse), (max-width: 900px)').matches;
+  if (LITE) root.classList.add('lite');
   var WORLD_W = 1440, WORLD_H = 3600;
 
   // Pseudoaleatorio con semilla: el paisaje sale igual en cada carga.
@@ -330,6 +334,22 @@
 
   var current = 0, target = 0, running = false;
 
+  // En modo liviano: todo desplegado y el camino completo desde el inicio; solo se mueve el pin.
+  var liteReady = false;
+  function renderLite(camY, viewH) {
+    if (!liteReady) {
+      liteReady = true;
+      pops.forEach(function (pp) { pp.up = true; pp.el.classList.add('up'); });
+      routeMask.style.strokeDashoffset = 0;
+      sunRing.setAttribute('transform', 'translate(1040 ' + (520 + SUN_DROP) + ') scale(' + sunK.toFixed(3) + ') translate(-1040 -520)');
+    }
+    var focusY = camY + viewH * 0.55;
+    if (focusY < routePts[0][1]) { traveler.style.opacity = 0; return; }
+    var s = sampleAtY(focusY);
+    traveler.style.opacity = 1;
+    traveler.setAttribute('transform', 'translate(' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ')');
+  }
+
   function progressFromScroll() {
     var p = (window.scrollY - m.top) / m.span;
     return Math.max(0, Math.min(1, p));
@@ -341,6 +361,8 @@
 
     var camY = (camPx - m.offY) / m.scale;         // borde superior visible, en unidades del mapa
     var viewH = m.H / m.scale;                     // alto visible, en unidades del mapa
+
+    if (LITE) { renderLite(camY, viewH); return; }
 
     // capas con profundidad (se mueven más lento → parallax)
     depthLayers.forEach(function (layer) {
@@ -371,7 +393,7 @@
 
   function tick() {
     var diff = target - current;
-    if (reduceMotion || Math.abs(diff) < 0.0004) {
+    if (reduceMotion || LITE || Math.abs(diff) < 0.0004) {
       current = target;
       render(current);
       running = false;
@@ -403,7 +425,12 @@
   current = target = progressFromScroll();
   render(current);
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', function () { measure(); onScroll(); });
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (LITE && window.innerWidth === lastW) return; // solo se movió la barra del navegador
+    lastW = window.innerWidth;
+    measure(); onScroll();
+  });
   window.addEventListener('load', function () { measure(); onScroll(); });
 
   /* =========================================================
@@ -491,7 +518,12 @@
   // se recalcula cuando el mapa ya está ubicado (load) y cuando terminan de cargar las fuentes
   window.addEventListener('load', function () { setTimeout(fitHero, 60); });
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(fitHero, 60); });
-  window.addEventListener('resize', fitHero);
+  var fitW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (LITE && window.innerWidth === fitW) return;
+    fitW = window.innerWidth;
+    fitHero();
+  });
   window.addEventListener('scroll', function () { if (fitPending && window.scrollY <= 10) fitHero(); }, { passive: true });
 
   // Tarjetas y bloques que aparecen al entrar en pantalla

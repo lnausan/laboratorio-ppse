@@ -528,6 +528,15 @@ tspan.lab-mark { fill: var(--coral); }
 .reveal.is-in { opacity: 1; transform: none; }
 .no-js .reveal { opacity: 1; transform: none; }
 
+/* ---------- Modo liviano (pantallas táctiles, ver main.js) ----------
+   Las animaciones dentro de los SVG quedan congeladas en su cuadro y las piezas
+   ya desplegadas: así el navegador no repinta el paisaje mientras se hace scroll. */
+.lite .world__svg *, .lite .map * { animation-play-state: paused !important; }
+.lite .puff { display: none; }
+.lite .pop { transition: none; }
+.lite .map__grain { display: none; }
+.lite .hero { will-change: auto; }
+
 /* ---------- Movimiento reducido ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
