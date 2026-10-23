@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="es" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratorio de Gestión · UNTDF</title>
+  <meta name="description" content="Laboratorio de Gestión de Programas y Proyectos Socioeducativos. Proyecto de extensión del Instituto de Educación y Conocimiento, UNTDF. Ushuaia, noviembre–diciembre 2026.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Sprite de íconos (trazo simple, estilo post-it del flyer) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-people" viewBox="0 0 24 24"><circle cx="7" cy="9" r="2.4"/><circle cx="12" cy="7.5" r="2.6"/><circle cx="17" cy="9" r="2.4"/><path d="M3 18c0-2.6 1.8-4.6 4-4.6 1 0 1.9.4 2.6 1"/><path d="M21 18c0-2.6-1.8-4.6-4-4.6-1 0-1.9.4-2.6 1"/><path d="M7.5 19c0-3 2-5.4 4.5-5.4s4.5 2.4 4.5 5.4"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5"/><path d="M12 6.5C14 5 17 4.5 20.5 5v13c-3.5-.5-6.5 0-8.5 1.5z"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/><circle cx="12" cy="12" r="6.5"/></symbol>
+      <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12C12 8 9 5.5 4.5 5.5 4.5 10 7.5 12 12 12z"/><path d="M12 14c0-3.5 2.6-6 7-6 0 4-2.8 6-7 6z"/><path d="M8 21h8"/></symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17.5h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.3 1 2.1v.6h5.2v-.6c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3z"/><path d="M10.5 13.5c0-2 .5-3.5 1.5-4.5 1 1 1.5 2.5 1.5 4.5"/></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6.5l5.5-2 7 2.5 5.5-2v13l-5.5 2-7-2.5-5.5 2z"/><path d="M8.5 4.5v13M15.5 7v13"/></symbol>
+      <symbol id="i-toolbox" viewBox="0 0 24 24"><rect x="3" y="8.5" width="18" height="11" rx="1.5"/><path d="M9 8.5V6a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 6v2.5"/><path d="M3 13h18M10.5 13v2h3v-2"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16v10H10l-4.5 3.5v-3.5H4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01" stroke-width="2.6"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></symbol>
+      <symbol id="i-cycle" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-13.7 5.6M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4M6 21v-4h4"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Principal">
+      <a class="brand" href="#inicio">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40"><path d="M4 31 L14 15 L19 21 L26 9 L36 31 Z" fill="#fff"/><path d="M23 14 L26 9 L29 14 L27 13 L26 15 L24.5 13 Z" fill="var(--teal)"/></svg>
+        </span>
+        <span class="brand__name">Laboratorio<span class="brand__sub">PPSE · UNTDF</span></span>
+      </a>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="#laboratorio">El laboratorio</a></li>
+        <li><a href="#proponemos">Propuesta</a></li>
+        <li><a href="#trabajo">Cómo trabajamos</a></li>
+        <li><a href="#construir">Producciones</a></li>
+        <li><a href="#cronograma">Cronograma</a></li>
+      </ul>
+      <a class="btn btn--ghost nav__cta" href="#contacto">Consultas <span class="dot dot--coral" aria-hidden="true"></span></a>
+      <button class="nav__toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Abrir menú">
+        <span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="inicio">
+      <div class="container">
+        <p class="eyebrow reveal">
+          <span class="dot dot--teal" aria-hidden="true"></span>
+          Proyecto de extensión · Instituto de Educación y Conocimiento · UNTDF
+        </p>
+        <h1 class="hero__title reveal">
+          <span class="hero__display">Laboratorio</span>
+          <span class="hero__rest">de Gestión de Programas y&nbsp;Proyectos Socioeducativos</span>
+        </h1>
+        <div class="hero__foot reveal">
+          <p class="hero__lead">Un espacio para pensar juntos y juntas la gestión socioeducativa desde el territorio: cruzar saberes, revisar prácticas y construir herramientas situadas.</p>
+          <div class="hero__actions">
+            <a class="btn btn--teal" href="#cronograma">Ver encuentros <span class="dot dot--white" aria-hidden="true"></span></a>
+            <a class="btn btn--ghost" href="#laboratorio">Conocer la propuesta <svg class="ico"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panorama de Ushuaia: Martial, Olivia, Cinco Hermanos -->
+      <div class="panorama" aria-hidden="true">
+        <svg viewBox="0 0 1440 380" preserveAspectRatio="xMidYMax slice">
+          <!-- cordón trasero -->
+          <path d="M0 250 L90 190 L170 215 L260 140 L340 185 L420 150 L520 200 L640 165 L760 215 L880 175 L1000 200 L1120 150 L1240 190 L1340 160 L1440 205 V380 H0 Z" fill="var(--lilac-soft)"/>
+          <!-- Martial -->
+          <path d="M80 380 L230 205 Q270 160 315 175 L395 125 Q430 105 462 132 L590 250 L720 380 Z" fill="var(--slate)"/>
+          <path d="M230 205 Q270 160 315 175 L395 125 Q430 105 462 132 L505 172 L478 164 L455 182 L428 160 L398 186 L362 175 L330 198 L300 186 L262 210 Z" fill="var(--snow)"/>
+          <!-- Monte Olivia -->
+          <path d="M760 380 L905 190 L948 98 L968 62 L986 92 L1010 150 L1090 245 L1200 380 Z" fill="var(--olivia)"/>
+          <path d="M905 190 L948 98 L968 62 L986 92 L1010 150 L1018 162 L996 150 L982 168 L966 146 L948 170 L930 160 Z" fill="var(--snow)"/>
+          <!-- Cinco Hermanos -->
+          <path d="M1080 380 L1150 232 L1178 258 L1208 205 L1238 245 L1268 196 L1300 240 L1330 204 L1360 248 L1392 214 L1440 270 V380 Z" fill="var(--violet)"/>
+          <path d="M1150 232 L1178 258 L1166 248 Z M1196 226 L1208 205 L1222 226 L1210 220 Z M1256 216 L1268 196 L1282 218 L1268 212 Z M1320 220 L1330 204 L1342 222 L1331 216 Z M1382 228 L1392 214 L1404 230 L1393 225 Z" fill="var(--snow)"/>
+          <!-- sol / lamparita -->
+          <circle cx="640" cy="120" r="58" fill="var(--mustard)" opacity=".85"/>
+          <!-- colinas con bosque -->
+          <path d="M0 330 Q240 270 520 310 T1000 300 T1440 290 V380 H0 Z" fill="var(--forest)"/>
+          <g class="trees" data-y="300" data-count="46"></g>
+          <path d="M0 360 Q360 330 720 352 T1440 345 V380 H0 Z" fill="var(--forest-deep)"/>
+        </svg>
+        <span class="panorama__label panorama__label--martial">Martial</span>
+        <span class="panorama__label panorama__label--olivia">Monte Olivia</span>
+        <span class="panorama__label panorama__label--hermanos">Cinco Hermanos</span>
+      </div>
+    </section>
+
+    <!-- ============ FLYER + RESEÑA ============ -->
+    <section class="intro">
+      <div class="container intro__grid">
+        <figure class="intro__art reveal">
+          <img src="../assets/flyer.jpg" alt="Ilustración del Laboratorio: manos que ubican post-its con íconos sobre un mapa de Ushuaia con montañas, el canal, casas y una caja de herramientas." width="1374" height="1145">
+        </figure>
+        <div class="card intro__card reveal">
+          <span class="tag tag--coral">Noviembre – Diciembre 2026 · Ushuaia</span>
+          <p class="intro__text">En un contexto que vuelve a poner en agenda el derecho a la educación y el valor de las políticas socioeducativas, se abre un espacio para <strong>pensar juntos</strong>.</p>
+          <p>Cada comunidad enfrenta problemáticas singulares que exigen respuestas situadas —y no fórmulas cerradas—. El Laboratorio invita a cruzar saberes académicos, institucionales y territoriales para construir colectivamente conocimientos y herramientas de gestión.</p>
+          <ul class="facts">
+            <li><strong>6</strong><span>encuentros</span></li>
+            <li><strong>4</strong><span>presenciales</span></li>
+            <li><strong>2</strong><span>virtuales</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RECORRIDO (paradas sobre el camino punteado) ============ -->
+    <section class="recorrido" id="recorrido">
+      <svg class="recorrido__path" aria-hidden="true">
+        <defs>
+          <mask id="path-reveal" maskUnits="userSpaceOnUse">
+            <path class="path-mask" fill="none" stroke="#fff" stroke-width="10"/>
+          </mask>
+        </defs>
+        <path class="path-line" fill="none" mask="url(#path-reveal)"/>
+      </svg>
+
+      <div class="container">
+
+        <!-- Parada 1 -->
+        <article class="stop" id="laboratorio">
+          <div class="postit postit--mustard" aria-hidden="true"><svg class="ico"><use href="#i-bulb"/></svg></div>
+          <div class="card stop__card reveal">
+            <p class="stop__num">Parada 01</p>
+            <h2>¿Qué es un laboratorio social?</h2>
+            <p>Los laboratorios sociales son espacios de encuentro, participación y producción colectiva de conocimiento, orientados a abordar problemas complejos desde el diálogo entre diversos actores, saberes y experiencias.</p>
+            <div class="dims">
+              <div class="dim dim--teal">
+                <h3>Social</h3>
+                <p>Reúne diferentes perspectivas y experiencias.</p>
+              </div>
+              <div class="dim dim--coral">
+                <h3>Experimental</h3>
+                <p>Habilita el ensayo, la revisión y la transformación de alternativas.</p>
+              </div>
+              <div class="dim dim--violet">
+                <h3>Sistémica</h3>
+                <p>Considera las relaciones entre problemas, actores y contextos.</p>
+              </div>
+            </div>
+            <p class="muted">Desde esta concepción, nuestro Laboratorio propone recuperar las propias prácticas de gestión para interrogarlas, revisarlas y construir nuevas posibilidades de intervención <cite>(Tabarés Gutiérrez y Bierwirth, 2019)</cite>.</p>
+          </div>
+        </article>
+
+        <!-- Parada 2 -->
+        <article class="stop stop--right" id="proponemos">
+          <div class="postit postit--lilac" aria-hidden="true"><svg class="ico"><use href="#i-people"/></svg></div>
+          <div class="card stop__card reveal">
+            <p class="stop__num">Parada 02</p>
+            <h2>¿Qué nos proponemos?</h2>
+            <p>Generar un espacio de formación y reflexión crítica sobre la gestión de programas y proyectos socioeducativos, reconociendo que las prácticas se desarrollan en territorios diversos, atravesados por desigualdades y desafíos que requieren respuestas situadas.</p>
+            <p>Buscamos poner en diálogo los saberes</p>
+            <ul class="chips">
+              <li class="chip">académicos</li>
+              <li class="chip">institucionales</li>
+              <li class="chip">territoriales</li>
+            </ul>
+            <p>para problematizar las formas de comprender y abordar las situaciones de gestión y construir colectivamente herramientas que fortalezcan las intervenciones socioeducativas desde una <strong>perspectiva de derechos y justicia educativa</strong>.</p>
+          </div>
+        </article>
+
+        <!-- Parada 3 -->
+        <article class="stop" id="trabajo">
+          <div class="postit postit--coral" aria-hidden="true"><svg class="ico"><use href="#i-gear"/></svg></div>
+          <div class="card stop__card reveal">
+            <p class="stop__num">Parada 03</p>
+            <h2>¿Cómo vamos a trabajar?</h2>
+            <p>Partiremos de las experiencias, preguntas, problemas y desafíos que quienes participan encuentran en sus prácticas de gestión. A través de un recorrido participativo y flexible, pondremos en circulación diferentes saberes y formas de hacer para:</p>
+            <ol class="cycle" aria-label="Ciclo metodológico">
+              <li>Poner en circulación</li>
+              <li>Desmontar</li>
+              <li>Desplazar</li>
+              <li>Transformar</li>
+              <li>Ensayar</li>
+              <li>Sistematizar</li>
+              <li class="cycle__back" aria-hidden="true"><svg class="ico"><use href="#i-cycle"/></svg></li>
+            </ol>
+            <blockquote class="quote">No se trata de aprender a aplicar herramientas predeterminadas, sino de construirlas, revisarlas y recrearlas colectivamente, atendiendo a las particularidades de cada contexto institucional y territorial.</blockquote>
+          </div>
+        </article>
+
+        <!-- Parada 4 -->
+        <article class="stop stop--right stop--wide" id="construir">
+          <div class="postit postit--green" aria-hidden="true"><svg class="ico"><use href="#i-sprout"/></svg></div>
+          <div class="stop__card reveal">
+            <p class="stop__num">Parada 04</p>
+            <h2 class="section-title">¿Qué vamos a construir juntos y juntas?</h2>
+            <p class="lead">A lo largo del Laboratorio iremos desarrollando dos producciones colectivas.</p>
+            <div class="products">
+              <div class="product product--map">
+                <span class="product__icon"><svg class="ico"><use href="#i-map"/></svg></span>
+                <h3>Cartografía Socioeducativa Participativa</h3>
+                <p>Para reconocer y poner en relación actores, recursos, experiencias, problemáticas y articulaciones presentes en los territorios.</p>
+              </div>
+              <div class="product product--box">
+                <span class="product__icon"><svg class="ico"><use href="#i-toolbox"/></svg></span>
+                <h3>Caja de Herramientas para la Gestión</h3>
+                <p>Para recuperar estrategias, recursos y modos de intervención construidos, compartidos y revisados durante el recorrido.</p>
+              </div>
+            </div>
+            <p class="muted center">Ambas serán construcciones abiertas y en proceso, que permitirán recuperar y sistematizar los aprendizajes producidos colectivamente.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ CRONOGRAMA SOBRE EL MAPA ============ -->
+    <section class="cronograma" id="cronograma">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow"><span class="dot dot--coral" aria-hidden="true"></span>Jueves · 18 a 21 h</p>
+          <h2 class="section-title">Cronograma y lugares de encuentro</h2>
+        </header>
+
+        <div class="map-wrap reveal">
+          <!-- Mapa ilustrado de Ushuaia (no a escala; ubicaciones aproximadas) -->
+          <svg class="map" viewBox="0 0 1200 640" role="img" aria-labelledby="map-title">
+            <title id="map-title">Mapa ilustrado de Ushuaia con los lugares de encuentro: IPESfa, UNTDF y el aula virtual.</title>
+            <rect width="1200" height="640" fill="var(--sky-soft)"/>
+            <!-- montañas -->
+            <path d="M0 210 L110 120 L190 150 L300 80 L380 130 L470 100 L560 150 L700 110 L820 160 L940 120 L1060 150 L1200 110 V300 H0 Z" fill="var(--lilac-soft)"/>
+            <path d="M120 300 L250 140 Q285 110 320 122 L390 88 Q420 74 446 96 L560 200 L640 300 Z" fill="var(--slate)"/>
+            <path d="M250 140 Q285 110 320 122 L390 88 Q420 74 446 96 L478 126 L455 120 L436 134 L414 118 L390 138 L360 130 L334 148 L306 138 L274 156 Z" fill="var(--snow)"/>
+            <path d="M700 300 L820 150 L852 80 L868 52 L884 78 L904 126 L980 210 L1060 300 Z" fill="var(--olivia)"/>
+            <path d="M820 150 L852 80 L868 52 L884 78 L904 126 L910 136 L892 126 L880 140 L866 122 L850 142 L836 134 Z" fill="var(--snow)"/>
+            <path d="M960 300 L1020 180 L1044 200 L1070 160 L1096 192 L1122 152 L1150 188 L1176 160 L1200 190 V300 Z" fill="var(--violet)"/>
+            <!-- bosque y ladera -->
+            <path d="M0 270 Q300 220 600 258 T1200 245 V420 H0 Z" fill="var(--forest)"/>
+            <g class="trees" data-y="250" data-count="40" data-scale="0.8"></g>
+            <!-- ciudad -->
+            <path d="M0 330 Q300 300 600 320 T1200 310 V470 H0 Z" fill="var(--land)"/>
+            <g class="streets" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".85">
+              <path d="M60 368 Q400 340 760 360 T1160 350"/>
+              <path d="M40 410 Q400 384 760 402 T1170 392"/>
+              <path d="M30 448 Q400 424 760 440 T1180 432"/>
+              <path d="M230 338 L210 460 M400 330 L388 452 M570 330 L566 450 M740 342 L746 452 M910 338 L924 446"/>
+            </g>
+            <g class="houses" data-x0="40" data-x1="1160" data-y0="340" data-y1="450" data-count="36"></g>
+            <!-- canal Beagle -->
+            <path d="M0 478 Q150 462 300 480 T600 476 T900 482 T1200 474 V640 H0 Z" fill="var(--water)"/>
+            <!-- península -->
+            <path d="M110 474 Q200 500 300 522 Q368 538 352 556 Q336 570 296 560 Q236 546 186 518 Q140 496 110 474 Z" fill="var(--land)"/>
+            <g class="waves" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55">
+              <path d="M480 560 q15 -10 30 0 t30 0"/><path d="M760 520 q15 -10 30 0 t30 0"/><path d="M980 590 q15 -10 30 0 t30 0"/><path d="M200 600 q15 -10 30 0 t30 0"/><path d="M640 612 q15 -10 30 0 t30 0"/>
+            </g>
+            <text x="760" y="586" class="map__water-label">Canal Beagle</text>
+            <text x="1010" y="440" class="map__city-label">Ushuaia</text>
+
+            <!-- recorridos entre lugares -->
+            <g class="routes" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round">
+              <path d="M470 372 C 500 250, 540 190, 590 160"/>
+              <path d="M660 160 C 760 190, 800 290, 790 380"/>
+              <path d="M488 392 C 580 420, 690 420, 770 400"/>
+            </g>
+
+            <!-- aula virtual: nube/globo como en el flyer -->
+            <g class="place" data-place="virtual" tabindex="0" aria-label="Aula virtual: encuentros 2 y 5" transform="translate(-150 -50)">
+              <path d="M690 90 h170 a20 20 0 0 1 20 20 v52 a20 20 0 0 1 -20 20 h-112 l-26 22 v-22 h-32 a20 20 0 0 1 -20 -20 v-52 a20 20 0 0 1 20 -20z" class="place__bubble"/>
+              <circle cx="732" cy="128" r="5" fill="var(--ink)"/><circle cx="752" cy="128" r="5" fill="var(--ink)"/><circle cx="772" cy="128" r="5" fill="var(--ink)"/>
+              <text x="732" y="160" class="place__name">Aula virtual</text>
+              <text x="808" y="132" class="place__nums">2 · 5</text>
+            </g>
+
+            <!-- IPESfa -->
+            <g class="place" data-place="ipesfa" tabindex="0" aria-label="IPESfa: encuentros 1 y 3" transform="translate(470 392)">
+              <path class="place__pin" d="M0 0 c-18 -22 -30 -36 -30 -52 a30 30 0 0 1 60 0 c0 16 -12 30 -30 52z"/>
+              <circle cy="-52" r="11" fill="#fff"/>
+              <g class="place__label" transform="translate(-122 -112)">
+                <rect width="120" height="54" rx="27"/>
+                <text x="60" y="24" text-anchor="middle" class="place__name">IPESfa</text>
+                <text x="60" y="42" text-anchor="middle" class="place__nums">1 · 3</text>
+              </g>
+            </g>
+
+            <!-- UNTDF -->
+            <g class="place" data-place="untdf" tabindex="0" aria-label="UNTDF: encuentros 4 y 6" transform="translate(790 402)">
+              <path class="place__pin" d="M0 0 c-18 -22 -30 -36 -30 -52 a30 30 0 0 1 60 0 c0 16 -12 30 -30 52z"/>
+              <circle cy="-52" r="11" fill="#fff"/>
+              <g class="place__label" transform="translate(40 -112)">
+                <rect width="120" height="54" rx="27"/>
+                <text x="60" y="24" text-anchor="middle" class="place__name">UNTDF</text>
+                <text x="60" y="42" text-anchor="middle" class="place__nums">4 · 6</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <!-- TODO equipo: confirmar horario de los virtuales y el del 26/11 (en Página 1 dice "1 a 21hs"). -->
+        <ol class="sessions">
+          <li class="session reveal" data-place="ipesfa">
+            <div class="session__date"><strong>5</strong><span>nov</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--presencial">Presencial</span><span>IPESfa · 18 a 21 h</span></div>
+              <h3>Políticas socioeducativas, territorio y problemas</h3>
+              <p>Lectura del territorio y diagnóstico inicial. Inicio de la Cartografía.</p>
+            </div>
+          </li>
+          <li class="session reveal" data-place="virtual">
+            <div class="session__date"><strong>12</strong><span>nov</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--virtual">Virtual</span><span>Aula virtual · con invitada</span></div>
+              <h3>Actores, relaciones y tramas territoriales</h3>
+              <p>Mapeo de actores y relaciones.</p>
+            </div>
+          </li>
+          <li class="session reveal" data-place="ipesfa">
+            <div class="session__date"><strong>19</strong><span>nov</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--presencial">Presencial</span><span>IPESfa · 18 a 21 h</span></div>
+              <h3>De las demandas a los problemas</h3>
+              <p>Diagnóstico participativo y construcción colectiva del problema.</p>
+            </div>
+          </li>
+          <li class="session reveal" data-place="untdf">
+            <div class="session__date"><strong>26</strong><span>nov</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--presencial">Presencial</span><span>UNTDF · 18 a 21 h</span></div>
+              <h3>De los problemas a las estrategias</h3>
+              <p>Planificación estratégica situada y diseño de alternativas.</p>
+            </div>
+          </li>
+          <li class="session reveal" data-place="virtual">
+            <div class="session__date"><strong>3</strong><span>dic</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--virtual">Virtual</span><span>Aula virtual · con invitada</span></div>
+              <h3>Gestión, seguimiento y revisión de las estrategias</h3>
+              <p>Criterios de seguimiento, monitoreo y evaluación.</p>
+            </div>
+          </li>
+          <li class="session reveal" data-place="untdf">
+            <div class="session__date"><strong>10</strong><span>dic</span></div>
+            <div class="session__body">
+              <div class="session__meta"><span class="mode mode--presencial">Presencial</span><span>UNTDF · 18 a 21 h</span></div>
+              <h3>Sistematizar para aprender y construir herramientas</h3>
+              <p>Revisión colectiva de la Cartografía y la Caja de Herramientas.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER: canal Beagle ============ -->
+  <footer class="footer" id="contacto">
+    <svg class="footer__wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 40 Q120 10 240 40 T480 40 T720 40 T960 40 T1200 40 T1440 40 V80 H0 Z" fill="var(--water)"/>
+    </svg>
+    <div class="footer__body">
+      <div class="container footer__grid">
+        <div>
+          <p class="footer__title">Laboratorio de Gestión de Programas y Proyectos Socioeducativos</p>
+          <p class="footer__org">Instituto de Educación y Conocimiento · Secretaría de Extensión<br>Universidad Nacional de Tierra del Fuego, AIAS</p>
+        </div>
+        <div class="footer__contact">
+          <p class="footer__label">Consultas</p>
+          <p>Jessica Rodriguez · Coordinación</p>
+          <a class="btn btn--white" href="mailto:jmrodriguez@untdf.edu.ar"><svg class="ico"><use href="#i-mail"/></svg> jmrodriguez@untdf.edu.ar</a>
+        </div>
+      </div>
+      <p class="container footer__fine">Ushuaia, Tierra del Fuego · 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
