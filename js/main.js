@@ -7,8 +7,8 @@
 
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Modo liviano en pantallas táctiles: el paisaje queda quieto y solo se mueve la cámara
-  // (redibujar el SVG gigante en cada cuadro es lo que trababa el scroll en celulares).
+  // Modo liviano en pantallas táctiles: el paisaje es un fondo quieto que se desplaza con el
+  // scroll nativo del navegador (sin cámara ni nada que se redibuje por cuadro: eso trababa los celulares).
   var LITE = window.matchMedia('(pointer: coarse), (max-width: 900px)').matches;
   if (LITE) root.classList.add('lite');
   var WORLD_W = 1440, WORLD_H = 3600;
@@ -319,8 +319,8 @@
   var m = {}; // métricas
   function measure() {
     m.W = stage.clientWidth;
-    m.H = stage.clientHeight;
-    m.worldH = m.H * 4;
+    m.H = LITE ? window.innerHeight : stage.clientHeight;
+    m.worldH = LITE ? journey.offsetHeight : m.H * 4; // en modo liviano el mapa ocupa todo el recorrido
     m.scale = Math.max(m.W / WORLD_W, m.worldH / WORLD_H);
     m.offY = (m.worldH - WORLD_H * m.scale) / 2;
     m.top = journey.getBoundingClientRect().top + window.scrollY;
@@ -330,24 +330,16 @@
     var minTop = (navEl ? navEl.getBoundingClientRect().bottom : 80) + 14;
     sunK = Math.max(0.6, Math.min(1.08, (520 + SUN_DROP - (minTop - m.offY) / m.scale) / RING_OUTER));
     if (sunDisc) sunDisc.setAttribute('transform', 'translate(1040 ' + (520 + SUN_DROP) + ') scale(' + sunK.toFixed(3) + ') translate(-1040 -520)');
+    if (LITE && sunRing) setupLite();
   }
 
   var current = 0, target = 0, running = false;
 
-  // En modo liviano: todo desplegado y el camino completo desde el inicio; solo se mueve el pin.
-  var liteReady = false;
-  function renderLite(camY, viewH) {
-    if (!liteReady) {
-      liteReady = true;
-      pops.forEach(function (pp) { pp.up = true; pp.el.classList.add('up'); });
-      routeMask.style.strokeDashoffset = 0;
-      sunRing.setAttribute('transform', 'translate(1040 ' + (520 + SUN_DROP) + ') scale(' + sunK.toFixed(3) + ') translate(-1040 -520)');
-    }
-    var focusY = camY + viewH * 0.55;
-    if (focusY < routePts[0][1]) { traveler.style.opacity = 0; return; }
-    var s = sampleAtY(focusY);
-    traveler.style.opacity = 1;
-    traveler.setAttribute('transform', 'translate(' + s.x.toFixed(1) + ' ' + s.y.toFixed(1) + ')');
+  // En modo liviano: todo desplegado y el camino completo, una sola vez (después no se toca el SVG).
+  function setupLite() {
+    pops.forEach(function (pp) { pp.up = true; pp.el.classList.add('up'); });
+    routeMask.style.strokeDashoffset = 0;
+    sunRing.setAttribute('transform', 'translate(1040 ' + (520 + SUN_DROP) + ') scale(' + sunK.toFixed(3) + ') translate(-1040 -520)');
   }
 
   function progressFromScroll() {
@@ -356,13 +348,12 @@
   }
 
   function render(p) {
+    if (LITE) return; // el navegador desplaza el paisaje solo
     var camPx = p * (m.worldH - m.H);
     world.style.transform = 'translate3d(0,' + (-camPx).toFixed(1) + 'px,0)';
 
     var camY = (camPx - m.offY) / m.scale;         // borde superior visible, en unidades del mapa
     var viewH = m.H / m.scale;                     // alto visible, en unidades del mapa
-
-    if (LITE) { renderLite(camY, viewH); return; }
 
     // capas con profundidad (se mueven más lento → parallax)
     depthLayers.forEach(function (layer) {
@@ -417,6 +408,7 @@
 
   function onScroll() {
     fadeHero();
+    if (LITE) return;
     target = progressFromScroll();
     if (!running) { running = true; requestAnimationFrame(tick); }
   }
