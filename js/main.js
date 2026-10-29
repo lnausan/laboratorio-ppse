@@ -644,12 +644,12 @@
     el('rect', { x: -9, y: -76, width: 18, height: 12, fill: INK }, lh);
     el('path', { d: 'M-12 -76 L0 -90 L12 -76 Z', fill: '#ec6a4d', stroke: INK, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, lh);
 
-    // Recorrido 1 → 6: IPESfa → Virtual → IPESfa → UNTDF → Virtual → UNTDF
+    // Recorrido 1 → 6: IPESfa → IPESfa → Virtual → UNTDF → Virtual → UNTDF
     var spot = { ipesfa: [470, 340], untdf: [790, 350], virtual: [512, 150] };
     var curves = [
+      'M470 340 C 380 370, 360 450, 430 450 C 490 450, 500 390, 470 340', // 1 → 2: vuelta en IPESfa
       'M470 340 C 420 280, 440 190, 512 150',
-      'M512 150 C 600 190, 580 300, 470 340',
-      'M470 340 C 560 450, 700 450, 790 350',
+      'M512 150 C 600 230, 680 310, 790 350',
       'M790 350 C 800 230, 680 170, 512 150',
       'M512 150 C 640 60, 920 180, 790 350'
     ];
@@ -670,7 +670,7 @@
     var today = iso(new Date());
     var data = stops.map(function (b, i) {
       var p = b.dataset.date.split('-').map(Number);
-      return { i: i, btn: b, place: b.dataset.place, date: b.dataset.date, time: b.dataset.time, d: new Date(p[0], p[1] - 1, p[2]) };
+      return { i: i, btn: b, place: b.dataset.place, date: b.dataset.date, time: b.dataset.time, note: b.dataset.note || '', d: new Date(p[0], p[1] - 1, p[2]) };
     });
     var nextIdx = -1;
     data.forEach(function (s) {
@@ -713,7 +713,7 @@
         'UID:laboratorio-ppse-2026-' + (s.i + 1) + '@untdf.edu.ar',
         'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z']
         .concat(when, [
-          'SUMMARY:Laboratorio PPSE · Encuentro ' + (s.i + 1) + (virtual ? ' (virtual)' : ''),
+          'SUMMARY:Laboratorio PPSE · Encuentro ' + (s.i + 1) + (s.note ? ' · ' + s.note : '') + (virtual ? ' (virtual)' : ''),
           'LOCATION:' + (virtual ? 'Virtual' : PLACE_NAME[s.place] + '\\, Ushuaia'),
           'DESCRIPTION:Laboratorio de Gestión de Programas y Proyectos Socioeducativos · IEC-UNTDF. Consultas: jmrodriguez@untdf.edu.ar',
           'END:VEVENT', 'END:VCALENDAR']).join('\r\n');
@@ -760,7 +760,7 @@
       places.forEach(function (p) { p.classList.toggle('is-active', p.dataset.place === s.place); });
       segs.forEach(function (sg, k) { sg.classList.toggle('is-done', k < i); });
 
-      dNum.textContent = 'Encuentro ' + (i + 1) + ' de ' + data.length;
+      dNum.textContent = 'Encuentro ' + (i + 1) + ' de ' + data.length + (s.note ? ' · ' + s.note : '');
       dStatus.textContent = statusText(s);
       dStatus.hidden = false;
       dStatus.classList.toggle('is-next', i === nextIdx);
