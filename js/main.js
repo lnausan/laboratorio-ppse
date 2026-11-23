@@ -724,6 +724,8 @@
     var dDate = document.getElementById('d-date'), dMode = document.getElementById('d-mode'), dWhere = document.getElementById('d-where');
     var dPrev = document.getElementById('d-prev'), dNext = document.getElementById('d-next'), dIcs = document.getElementById('d-ics');
     var detail = document.querySelector('.detail');
+    var plan = document.getElementById('plan');
+    var planItems = plan ? Array.prototype.slice.call(plan.querySelectorAll('.plan__item')) : [];
     var places = Array.prototype.slice.call(document.querySelectorAll('.place'));
     var traveler = document.getElementById('m-traveler'), travelerNum = document.getElementById('m-traveler-num');
     var current = -1, pos = 0, anim = null;
@@ -765,6 +767,10 @@
       dStatus.hidden = false;
       dStatus.classList.toggle('is-next', i === nextIdx);
       dDate.textContent = DIAS[s.d.getDay()] + ' ' + s.d.getDate() + ' de ' + MESES[s.d.getMonth()];
+      // qué se trabaja: solo para los encuentros que ya tienen su plan cargado
+      var hasPlan = false;
+      planItems.forEach(function (a) { var on = +a.dataset.encuentro === i + 1; a.hidden = !on; hasPlan = hasPlan || on; });
+      if (plan) plan.hidden = !hasPlan;
       var virtual = s.place === 'virtual';
       dMode.textContent = virtual ? 'Virtual' : 'Presencial';
       dMode.className = 'mode mode--' + (virtual ? 'virtual' : 'presencial');
@@ -822,5 +828,73 @@
     } else {
       select(start);
     }
+  }
+
+  /* =========================================================
+     6. Qué se trabaja: tiro al blanco y mapa de actores
+     ========================================================= */
+  var targetEl = document.querySelector('.target');
+  if (targetEl) {
+    var tWord = document.getElementById('target-word');
+    var chips = Array.prototype.slice.call(document.querySelectorAll('.target__chips .chip'));
+    var tCur = 0, tTouched = false, tHover = false;
+    function pick(k) {
+      tCur = k;
+      chips.forEach(function (c, j) { c.setAttribute('aria-pressed', j === k ? 'true' : 'false'); });
+      tWord.textContent = chips[k].textContent;
+      tWord.classList.remove('is-pop'); void tWord.offsetWidth; tWord.classList.add('is-pop');
+    }
+    chips.forEach(function (c, k) { c.addEventListener('click', function () { tTouched = true; pick(k); }); });
+    // mientras nadie elige, los conceptos van pasando por el centro
+    if (!reduceMotion) {
+      var box = targetEl.closest('.plan__box');
+      box.addEventListener('mouseenter', function () { tHover = true; });
+      box.addEventListener('mouseleave', function () { tHover = false; });
+      setInterval(function () {
+        if (!tTouched && !tHover && targetEl.offsetParent) pick((tCur + 1) % chips.length);
+      }, 2800);
+    }
+    // cada anillo es una pregunta: al señalarla se destaca su anillo
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ring]'), function (r) {
+      r.addEventListener('mouseenter', function () { targetEl.dataset.focus = r.dataset.ring; });
+      r.addEventListener('mouseleave', function () { delete targetEl.dataset.focus; });
+    });
+  }
+
+  var actorsEl = document.querySelector('.actors');
+  if (actorsEl) {
+    var web = actorsEl.querySelector('.actors__web');
+    var actors = Array.prototype.slice.call(actorsEl.querySelectorAll('.actor'));
+    var lines = [], pinned = -1;
+    // la trama: cada post-it unido con todos los demás
+    function drawWeb() {
+      var w = actorsEl.clientWidth, h = actorsEl.clientHeight;
+      if (!w || getComputedStyle(web).display === 'none') return;
+      web.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+      while (web.firstChild) web.removeChild(web.firstChild);
+      lines = [];
+      var c = actors.map(function (a) { return [a.offsetLeft + a.offsetWidth / 2, a.offsetTop + a.offsetHeight / 2]; });
+      for (var i = 0; i < c.length; i++) for (var j = i + 1; j < c.length; j++) {
+        var l = el('line', { x1: c[i][0], y1: c[i][1], x2: c[j][0], y2: c[j][1] }, web);
+        lines.push({ el: l, a: i, b: j });
+      }
+      light(pinned);
+    }
+    function light(k) {
+      actorsEl.classList.toggle('has-focus', k >= 0);
+      actors.forEach(function (a, j) { a.classList.toggle('is-on', j === k); });
+      lines.forEach(function (l) { l.el.classList.toggle('is-on', l.a === k || l.b === k); });
+    }
+    actors.forEach(function (a, k) {
+      a.addEventListener('mouseenter', function () { light(k); });
+      a.addEventListener('focus', function () { light(k); });
+      a.addEventListener('mouseleave', function () { light(pinned); });
+      a.addEventListener('blur', function () { light(pinned); });
+      a.addEventListener('click', function () { pinned = pinned === k ? -1 : k; light(pinned); });
+    });
+    // se redibuja cuando la tarjeta aparece (al elegir el encuentro) o cambia de tamaño
+    if ('ResizeObserver' in window) new ResizeObserver(drawWeb).observe(actorsEl);
+    else window.addEventListener('resize', drawWeb);
+    drawWeb();
   }
 })();

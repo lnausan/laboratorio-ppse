@@ -43,6 +43,7 @@
         <li><a href="#trabajo">Cómo trabajamos</a></li>
         <li><a href="#construir">Producciones</a></li>
         <li><a href="#cronograma">Cronograma</a></li>
+        <li><a href="bitacora.html">Bitácora</a></li>
       </ul>
       <a class="nav__logo" href="#contacto" aria-label="UNTDF · Instituto de Educación y Conocimiento · IPESfa">
         <img src="assets/logo-untdf-iec.png" alt="" width="408" height="136">
@@ -412,6 +413,67 @@
               </div>
             </div>
           </div>
+
+          <!-- Qué se trabaja en cada encuentro: se muestra el del encuentro elegido.
+               Para sumar otro, copiar un <article> y cambiar data-encuentro (1 a 6). -->
+          <div class="plan" id="plan" hidden>
+            <article class="plan__item" data-encuentro="2" hidden>
+              <header class="plan__head">
+                <h3 class="plan__heading">¿Qué vamos a trabajar?</h3>
+                <p class="plan__lead">Profundizar la construcción y problematización de sentidos compartidos en torno a seis conceptos, poniendo en diálogo los aportes con el marco teórico seleccionado.</p>
+              </header>
+
+              <div class="plan__grid">
+                <!-- Tiro al blanco: el concepto elegido va al centro; cada anillo es una pregunta -->
+                <section class="plan__box">
+                  <h4 class="plan__title">Seis conceptos al centro</h4>
+                  <div class="target">
+                    <div class="target__board" aria-hidden="true">
+                      <svg viewBox="0 0 300 300">
+                        <circle class="target__ring" data-ring="externo" cx="150" cy="150" r="146"/>
+                        <circle class="target__ring" data-ring="medio" cx="150" cy="150" r="108"/>
+                        <circle class="target__ring" data-ring="centro" cx="150" cy="150" r="72"/>
+                      </svg>
+                      <span class="target__word" id="target-word">Territorio</span>
+                    </div>
+                    <ul class="target__rings">
+                      <li data-ring="centro"><i aria-hidden="true"></i>¿Qué conservaríamos?</li>
+                      <li data-ring="medio"><i aria-hidden="true"></i>¿Qué agregaríamos?</li>
+                      <li data-ring="externo"><i aria-hidden="true"></i>¿Qué revisaríamos?</li>
+                    </ul>
+                  </div>
+                  <div class="target__chips" role="group" aria-label="Elegí un concepto">
+                    <button class="chip" aria-pressed="true">Territorio</button>
+                    <button class="chip" aria-pressed="false">Desigualdad</button>
+                    <button class="chip" aria-pressed="false">Igualdad</button>
+                    <button class="chip" aria-pressed="false">Equidad</button>
+                    <button class="chip" aria-pressed="false">Inclusión</button>
+                    <button class="chip" aria-pressed="false">Justicia educativa</button>
+                  </div>
+                </section>
+
+                <!-- Contenidos como un mapa de actores: post-its unidos por una trama -->
+                <section class="plan__box">
+                  <h4 class="plan__title">Contenidos</h4>
+                  <div class="actors">
+                    <svg class="actors__web" aria-hidden="true"></svg>
+                    <ul class="actors__list">
+                      <li><button class="actor actor--mustard" style="--x:50%; --y:12%; --r:-3deg">Actores, relaciones y tramas territoriales</button></li>
+                      <li><button class="actor actor--lilac" style="--x:79%; --y:44%; --r:4deg">Sujetos y actores, posiciones, saberes y recursos</button></li>
+                      <li><button class="actor actor--coral" style="--x:74%; --y:86%; --r:-2deg">Mapa de actores</button></li>
+                      <li><button class="actor actor--teal" style="--x:27%; --y:86%; --r:3deg">Articulación interinstitucional y redes comunitarias</button></li>
+                      <li><button class="actor actor--cream" style="--x:21%; --y:44%; --r:-4deg">Participación y construcción de acuerdos</button></li>
+                    </ul>
+                  </div>
+                </section>
+              </div>
+
+              <footer class="plan__foot">
+                <p>A partir de allí, iniciar la reflexión sobre el <strong>diagnóstico participativo</strong>: cómo pensamos e indagamos el territorio, qué instrumentos construimos para hacerlo y qué podemos revisar o complejizar.</p>
+                <p class="plan__tool"><svg class="ico" aria-hidden="true"><use href="#i-toolbox"/></svg><span><b>Herramienta:</b> mapeo de actores y relaciones</span></p>
+              </footer>
+            </article>
+          </div>
         </div>
 
         <!-- Imagen del flyer (adjunta en Página 1) — oculta por ahora; descomentar para volver a mostrarla.
@@ -442,6 +504,7 @@
         <li><a href="#trabajo">Cómo trabajamos</a></li>
         <li><a href="#construir">Producciones</a></li>
         <li><a href="#cronograma">Cronograma</a></li>
+        <li><a href="bitacora.html">Bitácora</a></li>
       </ul>
 
       <div class="footer__org">
