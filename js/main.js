@@ -542,6 +542,28 @@
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
   });
+
+  // Si el menú no entra en una línea (zoom, tipografía, ancho), primero se ocultan los logos
+  // (siguen en el pie) y, si tampoco alcanza, pasa a desplegable.
+  var navEl = document.querySelector('.nav');
+  function fitNav() {
+    var fits = function () { return navEl.scrollWidth <= navEl.clientWidth + 1; };
+    navEl.classList.remove('is-tight', 'is-menu');
+    if (fits()) return;
+    navEl.classList.add('is-tight');
+    if (fits()) return;
+    navEl.classList.remove('is-tight'); navEl.classList.add('is-menu');
+    if (fits()) return;
+    navEl.classList.add('is-tight');
+  }
+  var fitQueued = false;
+  window.addEventListener('resize', function () {
+    if (fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(function () { fitQueued = false; fitNav(); });
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
+  fitNav();
   links.addEventListener('click', function (e) {
     if (e.target.tagName === 'A') {
       links.classList.remove('is-open');

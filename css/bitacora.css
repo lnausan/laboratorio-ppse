@@ -223,6 +223,31 @@
 .carto-pin.is-quiet:hover .carto-pin__name, .carto-pin.is-quiet:focus-visible .carto-pin__name { visibility: visible; position: relative; z-index: 3; }
 .carto-pin:focus-visible { outline: none; }
 .carto-pin:focus-visible .carto-pin__name { outline: 3px solid var(--coral); outline-offset: 2px; }
+/* 2° capa restringida: candado, aviso en la ficha y formulario de la clave */
+.carto__lock { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--mustard); border: 1.5px solid var(--ink); }
+.carto__lock .ico { width: 13px; height: 13px; stroke-width: 2.2; }
+.carto__layer.is-locked { border-style: dashed; }
+.carto__layer:not(.is-locked) .carto__lock { background: var(--leaf); }
+.carto__locked {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; font: inherit; font-size: var(--text-sm); font-weight: 500; color: var(--ink); cursor: pointer;
+  padding: 10px 12px; border-radius: 16px; border: 1.5px dashed var(--ink); background: var(--cream); transition: background .2s;
+}
+.carto__locked:hover { background: #fbe3b0; }
+.carto__locked:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.carto__locked > span:first-child { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--mustard); border: 1.5px solid var(--ink); flex: none; }
+.carto__locked .ico { width: 16px; height: 16px; stroke-width: 2; }
+.carto__key { display: flex; flex-direction: column; }
+.carto__key-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--mustard); border: 1.5px solid var(--ink); flex: none; }
+.carto__key-ico .ico { width: 18px; height: 18px; stroke-width: 2; }
+.carto__key input {
+  font: inherit; font-size: var(--text-body); padding: 10px 14px; border-radius: 14px; border: 1.5px solid var(--ink); background: var(--white); margin-bottom: 10px;
+}
+.carto__key input:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+.carto__key-error { margin: 0 0 10px; color: #b23a22; font-size: var(--text-sm); font-weight: 500; }
+.carto__key-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.carto__key-actions .btn { padding: 10px 20px; cursor: pointer; font: inherit; font-size: var(--text-sm); }
+.carto__key-cancel { font: inherit; font-size: var(--text-sm); background: none; border: 0; color: var(--stone); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
 /* lugar de otra ciudad: cartel en el borde, hacia donde queda */
 .carto-far {
   position: absolute; top: 16px; left: 16px; z-index: 2; display: flex; align-items: center; gap: 8px; white-space: nowrap;

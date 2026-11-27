@@ -53,8 +53,8 @@
   }
 
   /* ---------- Visor de fotos ---------- */
-  var lb = document.getElementById('lightbox');
-  var lbImg = lb.querySelector('img'), lbCap = lb.querySelector('figcaption');
+  var lb = document.getElementById('lightbox');   // solo en las páginas con fotos
+  var lbImg = lb && lb.querySelector('img'), lbCap = lb && lb.querySelector('figcaption');
   var lbReturn = null;
   function openPhoto(src, caption, from) {
     lbImg.src = 'assets/bitacora/' + src;
@@ -70,8 +70,10 @@
     document.body.classList.remove('has-lightbox');
     if (lbReturn) lbReturn.focus();
   }
-  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.closest('.lightbox__close')) closePhoto(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) closePhoto(); });
+  if (lb) {
+    lb.addEventListener('click', function (e) { if (e.target === lb || e.target.closest('.lightbox__close')) closePhoto(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) closePhoto(); });
+  }
 
   /* ---------- Conceptos: alforja + tiro al blanco ---------- */
   var RINGS = [
@@ -136,7 +138,7 @@
 
       if (c.pendiente) {
         var p = h('div', { 'class': 'concept__pending' }, panel);
-        h('p', {}, p, 'Este concepto también circuló en nuestras alforjas. Estamos terminando de sistematizarlo: pronto va a estar acá.');
+        h('p', {}, p, 'Esta noción también circuló en nuestras alforjas. Estamos terminando de sistematizarla: pronto va a estar acá.');
         return;
       }
 
@@ -224,16 +226,21 @@
     });
     var located = T.lugares.filter(function (l) { return l.lat != null && !l.fuera; });
     var far = T.lugares.filter(function (l) { return l.fuera; });
-    var state = { proj: -1, place: null, layers: { espacios: true, trama: true, caracterizacion: true } };
+    var state = { proj: -1, place: null, layers: { espacios: true, trama: true, caracterizacion: false } };
+    // 2° capa: llega cifrada (js/bitacora-capa2.js) y solo se lee con la clave del equipo
+    var capa2 = { open: false, asking: false, error: '', btn: null };
+    var LOCK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>';
 
     /* capas */
     var layersEl = box.querySelector('.carto__layers');
     T.capas.forEach(function (c) {
-      var b = h('button', { 'class': 'carto__layer' + (c.pendiente ? ' is-pending' : ''), 'aria-pressed': c.pendiente ? 'false' : 'true' }, layersEl);
+      var b = h('button', { 'class': 'carto__layer' + (c.pendiente ? ' is-pending' : '') + (c.restringida ? ' is-locked' : ''), 'aria-pressed': String(!c.pendiente && !c.restringida) }, layersEl);
       h('i', { 'aria-hidden': 'true' }, b);
       h('span', {}, b, c.nombre);
       if (c.pendiente) { b.disabled = true; h('em', {}, b, 'Próximamente'); return; }
+      if (c.restringida) { var lk = h('span', { 'class': 'carto__lock' }, b); lk.innerHTML = LOCK; capa2.btn = b; }
       b.addEventListener('click', function () {
+        if (c.restringida && !capa2.open) { askKey(); return; }
         state.layers[c.id] = !state.layers[c.id];
         b.setAttribute('aria-pressed', String(state.layers[c.id]));
         applyLayers(); renderFicha();
@@ -274,6 +281,7 @@
     }
     function renderFicha() {
       ficha.innerHTML = '';
+      if (capa2.asking) { keyForm(); return; }
       if (state.proj >= 0) {
         var p = T.proyectos[state.proj];
         ficha.style.setProperty('--c', p.color);
@@ -282,7 +290,13 @@
         h('span', {}, hd, 'Proyecto ' + p.n);
         h('p', { 'class': 'carto__label' }, ficha, 'Dónde');
         placeTags(ficha, p.lugares);
-        if (state.layers.caracterizacion) {
+        if (!capa2.open) {
+          h('p', { 'class': 'carto__label' }, ficha, 'El grupo y su territorio');
+          var lb = h('button', { 'class': 'carto__locked' }, ficha);
+          var ic = h('span', { 'aria-hidden': 'true' }, lb); ic.innerHTML = LOCK;
+          h('span', {}, lb, 'Acceso restringido · abrir con la clave del equipo');
+          lb.addEventListener('click', askKey);
+        } else if (state.layers.caracterizacion) {
           h('p', { 'class': 'carto__label' }, ficha, 'El grupo y su territorio');
           if (p.texto) h('p', { 'class': 'carto__text' }, ficha, p.texto);
           if (p.rasgos) {
@@ -310,6 +324,57 @@
         h('p', { 'class': 'carto__hint' }, ficha, 'Elegí un proyecto para ver dónde trabaja y cómo son su grupo y su territorio, o tocá un lugar del mapa para ver qué proyectos se cruzan ahí.');
       }
     }
+
+    /* 2° capa: pedir la clave, descifrar y volver a cerrar */
+    function askKey() { capa2.asking = true; capa2.error = ''; renderFicha(); }
+    function keyForm() {
+      ficha.style.removeProperty('--c');
+      var f = h('form', { 'class': 'carto__key' }, ficha);
+      var hd = h('p', { 'class': 'carto__ficha-head carto__ficha-head--place' }, f);
+      var ic = h('span', { 'class': 'carto__key-ico', 'aria-hidden': 'true' }, hd); ic.innerHTML = LOCK;
+      h('span', {}, hd, '2° capa · acceso restringido');
+      h('p', { 'class': 'carto__text' }, f, 'La caracterización de los grupos y sus territorios reúne información sensible. Está disponible para el equipo del Laboratorio.');
+      var lab = h('label', { 'for': 'carto-key' }, f, 'Clave del equipo');
+      lab.className = 'carto__label';
+      var inp = h('input', { id: 'carto-key', type: 'password', autocomplete: 'current-password', required: '' }, f);
+      if (capa2.error) h('p', { 'class': 'carto__key-error', role: 'alert' }, f, capa2.error);
+      var row = h('div', { 'class': 'carto__key-actions' }, f);
+      h('button', { type: 'submit', 'class': 'btn btn--teal' }, row, 'Abrir capa');
+      var cancel = h('button', { type: 'button', 'class': 'carto__key-cancel' }, row, 'Cancelar');
+      cancel.addEventListener('click', function () { capa2.asking = false; renderFicha(); });
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        unlock(inp.value).then(function (ok) {
+          if (ok) { capa2.asking = false; try { sessionStorage.setItem('capa2', inp.value); } catch (err) {} }
+          else capa2.error = 'La clave no es correcta.';
+          renderFicha();
+        });
+      });
+      inp.focus();
+    }
+    function unlock(pass) {
+      var C = window.BITACORA_CAPA2, sub = window.crypto && window.crypto.subtle;
+      pass = (pass || '').trim().toLowerCase();   // la clave no distingue mayúsculas ni espacios de más
+      if (!C || !sub || !pass) return Promise.resolve(false);
+      var bytes = function (b64) { return Uint8Array.from(atob(b64), function (ch) { return ch.charCodeAt(0); }); };
+      return sub.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey'])
+        .then(function (base) {
+          return sub.deriveKey({ name: 'PBKDF2', salt: bytes(C.salt), iterations: C.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+        })
+        .then(function (key) { return sub.decrypt({ name: 'AES-GCM', iv: bytes(C.iv) }, key, bytes(C.data)); })
+        .then(function (buf) {
+          JSON.parse(new TextDecoder().decode(buf)).forEach(function (d, i) {
+            if (T.proyectos[i]) { T.proyectos[i].texto = d.texto; T.proyectos[i].rasgos = d.rasgos; }
+          });
+          capa2.open = true; state.layers.caracterizacion = true;
+          if (capa2.btn) { capa2.btn.classList.remove('is-locked'); capa2.btn.setAttribute('aria-pressed', 'true'); }
+          return true;
+        })
+        .catch(function () { return false; });
+    }
+    var saved = null;
+    try { saved = sessionStorage.getItem('capa2'); } catch (err) {}
+    if (saved) unlock(saved).then(function (ok) { if (ok) renderFicha(); });
 
     /* mapa */
     var mapEl = document.getElementById('carto-map');
@@ -510,6 +575,28 @@
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
   });
+
+  // Si el menú no entra en una línea (zoom, tipografía, ancho), primero se ocultan los logos
+  // (siguen en el pie) y, si tampoco alcanza, pasa a desplegable.
+  var navEl = document.querySelector('.nav');
+  function fitNav() {
+    var fits = function () { return navEl.scrollWidth <= navEl.clientWidth + 1; };
+    navEl.classList.remove('is-tight', 'is-menu');
+    if (fits()) return;
+    navEl.classList.add('is-tight');
+    if (fits()) return;
+    navEl.classList.remove('is-tight'); navEl.classList.add('is-menu');
+    if (fits()) return;
+    navEl.classList.add('is-tight');
+  }
+  var fitQueued = false;
+  window.addEventListener('resize', function () {
+    if (fitQueued) return;
+    fitQueued = true;
+    requestAnimationFrame(function () { fitQueued = false; fitNav(); });
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNav);
+  fitNav();
 
   markLab(document.body);
 })();

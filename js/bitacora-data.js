@@ -13,7 +13,7 @@ window.BITACORA = {
         {
           id: 'politicas-socioeducativas',
           nombre: 'Políticas socioeducativas',
-          nota: 'El concepto que trabajamos todas y todos.',
+          nota: 'La noción que trabajamos todas y todos.',
           alforja: [
             'Gestión de recursos públicos y resolver conflictos',
             'Toma de decisiones en grupo para organizar a la sociedad',
@@ -23,7 +23,7 @@ window.BITACORA = {
             'Necesidad de miradas inclusivas'
           ],
           centro: ['Garantizar derechos', 'Toma de decisiones', 'Interculturalidad'],
-          medio: ['Articulación', 'Pedagogía', 'Talles, espacios de encuentro', 'Acompañamiento para el desarrollo social'],
+          medio: ['Articulación', 'Pedagogía', 'Talleres, espacios de encuentro', 'Acompañamiento para el desarrollo social'],
           extremo: ['Ampliar universos culturales', 'Inclusión'],
           afiche: 'afiche-politicas-socioeducativas.jpg'
         },
@@ -84,7 +84,7 @@ window.BITACORA = {
         { id: 'inclusion', nombre: 'Inclusión', pendiente: true }
       ],
       fotos: [
-        { src: 'encuentro-1.jpg', alt: 'Los afiches de los conceptos sobre el piso de la sala, con el grupo conversando sentado en ronda.' },
+        { src: 'encuentro-1.jpg', alt: 'Los afiches de las nociones sobre el piso de la sala, con el grupo conversando sentado en ronda.' },
         { src: 'encuentro-2.jpg', alt: 'Participantes recorren y comentan los afiches con sus tiros al blanco.' },
         { src: 'encuentro-3.jpg', alt: 'Los cinco afiches con sus tiros al blanco de post-its, en el piso de la sala.' }
       ]
@@ -106,29 +106,22 @@ window.BITACORA = {
         { id: 'donbosco', nombre: 'Instituto Don Bosco', zona: 'Centro', lat: -54.80835, lon: -68.31070 },
         { id: 'untdf', nombre: 'UNTDF', zona: 'La Misión', lat: -54.82553, lon: -68.32824 }
       ],
-      /* proyectos: 1° capa = dónde se lleva a cabo; 2° capa = caracterización del grupo y el territorio.
-         (Las caracterizaciones siguen el orden del documento: confirmar con el equipo que coinciden.) */
+      /* proyectos: 1° capa = dónde se lleva a cabo.
+         La 2° capa (caracterización del grupo y el territorio) es de acceso restringido: NO va acá.
+         Se publica cifrada en js/bitacora-capa2.js (ver tools/cifrar-capa2.mjs). */
       proyectos: [
-        { lugares: ['cpc'],
-          rasgos: ['Confrontativo', 'Discontinuo', 'Diverso', 'Idiosincrasia propia'] },
-        { lugares: ['esc34', 'kauyak'],
-          texto: 'Grupos como docentes, como artistas. Grupos de Jujuy con diferentes problemas personales. Extrañan su lugar, su familia, la comida, la música. Les encanta bailar.' },
-        { lugares: ['esc34', 'cc11'],
-          texto: 'Adultos con discapacidad con intérprete. Interactúan entre ellos / adultos mujeres en su mayoría, jubiladas, profes de cerámica, madres, cuentan historias de sus vidas, la mayoría no nació aquí.' },
-        { lugares: ['kariamken', 'jardin3', 'cc11'],
-          rasgos: ['Cercanos', 'Contenedor', 'Pertinencia', 'Alimento', 'Herramientas para la relación social', 'Inclusión', 'Códigos sociales básicos', 'La mirada', 'La ansiedad'] },
-        { lugares: ['cc11', 'esc34', 'ccvarela'],
-          texto: 'Es personal e individual. La disciplina, el hábito nos ayuda a la plasticidad del cuerpo, en donde surge la creatividad.',
-          rasgos: ['Coreografía', 'Niños', 'Juegos', 'Reglamentos'] },
-        { lugares: ['donbosco', 'untdf'],
-          texto: 'Búsqueda de crecimiento personal. Ser parte. Infancias y adolescentes.',
-          rasgos: ['Diversas necesidades', 'Pago y privado', 'Público y gratuito (UNTDF)'] }
+        { lugares: ['cpc'] },
+        { lugares: ['esc34', 'kauyak'] },
+        { lugares: ['esc34', 'cc11'] },
+        { lugares: ['kariamken', 'jardin3', 'cc11'] },
+        { lugares: ['cc11', 'esc34', 'ccvarela'] },
+        { lugares: ['donbosco', 'untdf'] }
       ],
       // capas de la cartografía: las que todavía no se trabajaron quedan anunciadas
       capas: [
         { id: 'espacios', nombre: '1° capa · Espacios' },
         { id: 'trama', nombre: 'Trama' },
-        { id: 'caracterizacion', nombre: '2° capa · Grupos y territorio' },
+        { id: 'caracterizacion', nombre: '2° capa · Grupos y territorio', restringida: true },   // se abre con la clave del equipo
         { id: 'preguntas', nombre: '3° capa · Preguntas de diagnóstico', pendiente: true }
       ]
     }

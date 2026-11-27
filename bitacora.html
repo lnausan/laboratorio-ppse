@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
   <link rel="stylesheet" href="css/bitacora.css">
 </head>
 <body id="top">
@@ -46,6 +45,7 @@
         <li><a href="index.html#construir">Producciones</a></li>
         <li><a href="index.html#cronograma">Cronograma</a></li>
         <li><a href="bitacora.html" class="is-active" aria-current="page">Bitácora</a></li>
+        <li><a href="cartografia.html">Cartografía</a></li>
       </ul>
       <a class="nav__logo" href="#contacto" aria-label="UNTDF · Instituto de Educación y Conocimiento · IPESfa">
         <img src="assets/logo-untdf-iec.png" alt="" width="408" height="136">
@@ -66,8 +66,8 @@
           <h1 class="bita-hero__title">Bitácora</h1>
           <p class="bita-hero__lead">Lo que vamos construyendo encuentro a encuentro: las palabras que trajimos, los acuerdos a los que llegamos y las preguntas que quedan abiertas.</p>
           <ol class="bita-index">
-            <li><a href="#conceptos"><span class="bita-index__num">01</span>Conceptos como punto de partida</a></li>
-            <li><a href="#cartografia"><span class="bita-index__num">02</span>Cartografía del territorio</a></li>
+            <li><a href="#conceptos"><span class="bita-index__num">01</span>Nociones como punto de partida</a></li>
+            <li><a href="cartografia.html"><span class="bita-index__num">02</span>Cartografía del territorio</a></li>
           </ol>
         </div>
 
@@ -115,7 +115,7 @@
         <header class="bita-tema__head">
           <span class="bita-tema__num">01</span>
           <div>
-            <h2 class="bita-tema__title">Conceptos como punto de partida</h2>
+            <h2 class="bita-tema__title">Nociones como punto de partida</h2>
             <p class="bita-tema__meta">1° y 2° encuentro · 5 y 12 de noviembre</p>
           </div>
         </header>
@@ -130,18 +130,18 @@
           <li class="bita-paso">
             <span class="bita-paso__n">2</span>
             <h3>¿Qué traigo en mi alforja?</h3>
-            <p>Cada persona escribió con sus propias palabras qué entiende por <strong>política socioeducativa</strong> y por un segundo concepto que le tocó: territorio, desigualdad, igualdad, equidad, inclusión o justicia educativa.</p>
+            <p>Cada persona escribió con sus propias palabras qué entiende por <strong>política socioeducativa</strong> y por una segunda noción que le tocó: territorio, desigualdad, igualdad, equidad, inclusión o justicia educativa.</p>
           </li>
           <li class="bita-paso">
             <span class="bita-paso__n">3</span>
             <h3>Reconociendo-nos</h3>
-            <p>Compartimos las definiciones y acordamos dónde ubicar cada idea en un <strong>tiro al blanco</strong>, para empezar a construir sentidos compartidos.</p>
+            <p>Compartimos las concepciones y acordamos dónde ubicar cada idea en un <strong>tiro al blanco</strong>, para empezar a construir sentidos compartidos.</p>
           </li>
         </ol>
 
         <!-- explorador: un concepto a la vez (lo arma js/bitacora.js con js/bitacora-data.js) -->
         <div class="concepts" id="concepts">
-          <div class="concepts__tabs" role="tablist" aria-label="Conceptos"></div>
+          <div class="concepts__tabs" role="tablist" aria-label="Nociones"></div>
           <div class="concept" id="concept-panel" role="tabpanel"></div>
         </div>
 
@@ -152,39 +152,6 @@
       </div>
     </section>
 
-    <!-- ============ 02 · CARTOGRAFÍA ============ -->
-    <section class="bita-tema bita-tema--carto" id="cartografia">
-      <div class="container">
-        <header class="bita-tema__head">
-          <span class="bita-tema__num">02</span>
-          <div>
-            <h2 class="bita-tema__title">Cartografía del territorio</h2>
-            <p class="bita-tema__meta">Ushuaia · los espacios donde trabajamos y quiénes los habitan</p>
-          </div>
-        </header>
-        <p class="carto__intro">Ubicamos en el mapa de la ciudad los espacios donde se llevan adelante nuestros proyectos y, capa por capa, fuimos sumando cómo son los grupos y el territorio de cada uno. Tocá un proyecto o un lugar para recorrerlo.</p>
-
-        <!-- lo arma js/bitacora.js con MapLibre y los datos de js/bitacora-data.js -->
-        <div class="carto" id="carto">
-          <div class="carto__layers" role="group" aria-label="Capas del mapa"></div>
-          <div class="carto__body">
-            <div class="carto__map-wrap">
-              <div class="carto__map" id="carto-map" role="region" aria-label="Mapa de Ushuaia con los espacios de los proyectos"></div>
-              <p class="carto__fallback" hidden>No se pudo cargar el mapa. Revisá la conexión y volvé a intentar.</p>
-            </div>
-            <aside class="carto__side">
-              <p class="carto__label">Proyectos</p>
-              <div class="carto__projects" role="group" aria-label="Proyectos"></div>
-              <div class="carto__ficha" id="carto-ficha" aria-live="polite"></div>
-              <div class="carto__pending">
-                <p class="carto__label">Por ubicar</p>
-                <ul class="carto__pending-list"></ul>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- visor de fotos -->
@@ -211,6 +178,7 @@
         <li><a href="index.html#construir">Producciones</a></li>
         <li><a href="index.html#cronograma">Cronograma</a></li>
         <li><a href="bitacora.html">Bitácora</a></li>
+        <li><a href="cartografia.html">Cartografía</a></li>
       </ul>
 
       <div class="footer__org">
@@ -230,7 +198,6 @@
     <p class="footer__word" aria-hidden="true">lab<span>*</span></p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
   <script src="js/bitacora-data.js"></script>
   <script src="js/bitacora.js"></script>
 </body>
